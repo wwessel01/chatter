@@ -14,21 +14,37 @@
 
 <style>
     .message {
-        width: 100%;
+        width: 80%;
         display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding-block: .2em;
+        padding-inline: 1em;
+        border-radius: 1em;
+    }
+
+    .message:not(:last-child) {
+        margin-bottom: 1em;
     }
 
     .message.self {
         flex-direction: row-reverse;
+        background-color: lightblue;
+        margin-left: auto;
     }
 
     .message.other {
         flex-direction: row;
+        background-color: lightcoral;
     }
 
     .message img {
-        width: 50px;
-        height: 50px;
+        width: 2em;
+        height: 2em;
         border-radius: 50%;
+    }
+
+    .message p {
+        margin-inline: .5em;
     }
 </style>

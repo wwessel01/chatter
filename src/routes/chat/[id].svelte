@@ -1,60 +1,81 @@
 <script lang="ts">
-    import type { Chatroom } from '$lib/models/chatroom';
-    import { page } from '$app/stores';
+    import type { Chatroom } from "$lib/models/chatroom";
+    import { page } from "$app/stores";
     import { db } from "$lib/services/firebase";
     import { doc, onSnapshot, updateDoc } from "firebase/firestore";
-    import { onDestroy } from "svelte";
-    import { currentUser } from '$lib/store';
-    import ChatMessage from '$lib/components/chatMessage.svelte';
-
+    import { onDestroy, onMount } from "svelte";
+    import { currentUser } from "$lib/store";
+    import ChatMessage from "$lib/components/chatMessage.svelte";
+    
     const id = $page.params.id;
-
+    
     let chatroom: Chatroom | null | undefined = undefined;
     let message: string = "";
+    let messagesDiv: HTMLElement;
 
-    const unsubscribe = onSnapshot(
-        doc(db, "chatrooms", id),
-        (snapshot) => {
-            let data: Chatroom | null = snapshot.data() as Chatroom;
-            if(!data.members.find(() => $currentUser!.uid)) data = null;
-            chatroom = data;
-        }
-    );
-    onDestroy(() => {
-        unsubscribe();
+    const unsubscribe = onSnapshot(doc(db, "chatrooms", id), (snapshot) => {
+        let data: Chatroom | null = snapshot.data() as Chatroom;
+        if (!data.members.find(() => $currentUser!.uid)) data = null;
+        chatroom = data;
     });
-
-    const sendMessage = () => {
-        if(!message || !chatroom) return;
-
+    
+    const sendMessage = async () => {
+        if (!message || !chatroom) return;
+        
         const msg = {
             text: message,
             photoUrl: $currentUser!.photoURL,
             createdAt: new Date(),
-            uid: $currentUser!.uid
+            uid: $currentUser!.uid,
         };
-
+        
         const newMsgArray = [...chatroom.messages, msg];
-
-        updateDoc(doc(db, "chatrooms", id), {
-            messages: newMsgArray
+        
+        await updateDoc(doc(db, "chatrooms", id), {
+            messages: newMsgArray,
         });
+
+        updateScroll(true);
     };
+    
+    const updateScroll = (smooth: boolean) => {
+        if (!messagesDiv) return;
+        messagesDiv.lastElementChild?.scrollIntoView({behavior: smooth ? "smooth" : "auto"});
+    }
+    
+    $: if (messagesDiv) updateScroll(false);
+
+    onDestroy(() => {
+        unsubscribe();
+    });
 </script>
 
 {#if chatroom}
     <h1>{chatroom.title}</h1>
-    {#each chatroom.messages as message}
-        <ChatMessage message={message} />
-    {/each}
+    <div bind:this={messagesDiv} class="messages">
+        {#each chatroom.messages as message}
+            <ChatMessage {message} />
+        {/each}
+    </div>
     <form on:submit|preventDefault={sendMessage}>
-        <input type="text" bind:value={message}/>
+        <input type="text" bind:value={message} />
         <button type="submit">Send</button>
     </form>
+{:else if chatroom === undefined}
+    <h1>Loading...</h1>
 {:else}
-    {#if chatroom === undefined}
-        <h1>Loading...</h1>
-    {:else}
-        <h1>😥 No chatroom found... </h1>
-    {/if}
+    <h1>😥 No chatroom found...</h1>
 {/if}
+
+<style>
+    h1 {
+        margin: 0;
+        flex: 0;
+    }
+
+    .messages {
+        flex: 1;
+        overflow: scroll;
+        min-height: 0
+    }
+</style>

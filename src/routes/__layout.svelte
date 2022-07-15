@@ -5,7 +5,6 @@
     import LoginButton from "$lib/components/auth/loginButton.svelte";
     import LogoutButton from "$lib/components/auth/logoutButton.svelte";
 
-
     onAuthStateChanged(auth, (user) => {
 		if (user) {
 			currentUser.update(() => user);
@@ -15,28 +14,54 @@
 	});
 </script>
 
-{#if $currentUser}
-    <header>
-        <h1>💬 Chatter</h1>
-        <div>
-            <p>👤 {$currentUser.displayName}</p>
-            <LogoutButton />
+<section>
+    {#if $currentUser}
+        <header>
+            <a href="/">
+                <h1>💬 Chatter</h1>
+            </a>
+            <div>
+                <p>👤 {$currentUser.displayName}</p>
+                <LogoutButton />
+            </div>
+        </header>
+        <div class="content">
+            <slot />
         </div>
-    </header>
-    <slot />
-{:else}
-    <header>
-        <h1>💬 Chatter</h1>
-    </header>
-    <LoginButton />
-{/if}
+    {:else}
+        <header>
+            <h1>💬 Chatter</h1>
+        </header>
+        <LoginButton />
+    {/if}
+</section>
 
 <style>
+    section {
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        padding: 1em;
+        box-sizing: border-box;
+    }
+
     header {
+        flex: 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1em;
+    }
+
+    .content {
+        flex: 1;
+        display: flex;
+        flex-flow: column;
+        min-height: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
     }
 
     h1, p {
