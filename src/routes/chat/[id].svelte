@@ -25,6 +25,7 @@
         const msg = {
             text: message,
             photoUrl: $currentUser!.photoURL,
+            displayName: $currentUser!.displayName,
             createdAt: new Date(),
             uid: $currentUser!.uid,
         };
@@ -71,11 +72,23 @@
     h1 {
         margin: 0;
         flex: 0;
+        margin-top: .5em;
+        text-align: center;
     }
 
     .messages {
         flex: 1;
-        overflow: scroll;
-        min-height: 0
+        overflow-y: scroll;
+        min-height: 0;
+        border: 2px solid black;
+        border-radius: 1em;
+        padding-block: 1em;
+        padding-inline: .2em;
+    }
+
+    form {
+        background-color: lightblue;
+        display: flex;
+        padding: 1em;
     }
 </style>

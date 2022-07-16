@@ -43,6 +43,7 @@
         flex-flow: column;
         padding: 1em;
         box-sizing: border-box;
+        font-family: 'Ubuntu', sans-serif;
     }
 
     header {
