@@ -12,7 +12,7 @@
 
     const unsubscribe = onSnapshot(doc(db, "chatrooms", id), (snapshot) => {
         let data: Chatroom | null = snapshot.data() as Chatroom;
-        if (!data || !data.members.find(() => $currentUser!.uid)) data = null;
+        if (!data || !data.members.map((member) => member.uid === $currentUser!.uid).includes(true)) data = null;
         chatroom = data;
     });
 
@@ -21,15 +21,34 @@
     });
 </script>
 
-{#if chatroom}
-    <h1>{chatroom.title}</h1>
-    <ul>
-        {#each chatroom.members as member}
-            <li>{member}</li>
-        {/each}
-    </ul>
-{:else if chatroom === undefined}
-    <h1>Loading...</h1>
-{:else}
-    <h1>😥 No chatroom found...</h1>
-{/if}
+<section>
+    {#if chatroom}
+        <h1>{chatroom.title}</h1>
+        <h2>Add a new member to the chatroom</h2>
+        <h3>Share this link with your friends!</h3>
+        <p>
+            {window.origin + `/chat/${id}/join`}
+        </p>
+        <h2>Current members:</h2>
+        <ul>
+            {#each chatroom.members as member}
+                <li>{member.displayName}</li>
+            {/each}
+        </ul>
+    {:else if chatroom === undefined}
+        <h1>Loading...</h1>
+    {:else}
+        <h1>😥 No chatroom found...</h1>
+    {/if}
+</section>
+
+<style>
+    section {
+        display: flex;
+        flex-flow: column;
+    }
+
+    p {
+        overflow-wrap: break-word;
+    }
+</style>

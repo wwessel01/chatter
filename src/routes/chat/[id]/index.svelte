@@ -17,7 +17,7 @@
 
     const unsubscribe = onSnapshot(doc(db, "chatrooms", id), (snapshot) => {
         let data: Chatroom | null = snapshot.data() as Chatroom;
-        if (!data || !data.members.find(() => $currentUser!.uid)) data = null;
+        if (!data || !data.members.map((member) => member.uid === $currentUser!.uid).includes(true)) data = null;
         chatroom = data;
     });
     
@@ -41,6 +41,7 @@
         });
 
         updateScroll(true);
+        message = "";
     };
     
     const updateScroll = (smooth: boolean) => {

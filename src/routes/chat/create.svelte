@@ -10,9 +10,15 @@
     const createChatroom = async () => {
         if (!title) return;
 
+        const member = {
+            uid: $currentUser!.uid,
+            displayName: $currentUser!.displayName,
+            photoUrl: $currentUser!.photoURL,
+        };
+
         const chatroom = {
             title,
-            members: [$currentUser!.uid],
+            members: [member],
             messages: [],
         };
 

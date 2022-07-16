@@ -15,8 +15,8 @@
                 chatroom.id = doc.id;
                 return chatroom;
             })
-                .filter((group) => group.members)
-                .filter((group) => group.members.includes($currentUser!.uid));
+            .filter((chatroom) => chatroom.members && chatroom.members.length > 0)
+            .filter((chatroom) => chatroom.members.filter((member) => member.uid === $currentUser!.uid));
         }
     );
     onDestroy(() => {
