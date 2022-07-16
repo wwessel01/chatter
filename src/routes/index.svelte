@@ -25,7 +25,7 @@
 </script>
 
 <section>
-    <button>Create chat</button>
+    <a href="/chat/create">Create chat</a>
     <h2>Join chat</h2>
     <ul>
         {#each chatrooms as chatroom}

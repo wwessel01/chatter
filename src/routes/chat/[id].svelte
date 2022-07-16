@@ -16,7 +16,7 @@
 
     const unsubscribe = onSnapshot(doc(db, "chatrooms", id), (snapshot) => {
         let data: Chatroom | null = snapshot.data() as Chatroom;
-        if (!data.members.find(() => $currentUser!.uid)) data = null;
+        if (!data || !data.members.find(() => $currentUser!.uid)) data = null;
         chatroom = data;
     });
     
