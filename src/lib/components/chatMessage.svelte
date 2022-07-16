@@ -18,10 +18,9 @@
         width: fit-content;
         max-width: 80%;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         box-sizing: border-box;
-        padding-block: .2em;
-        padding-inline: 1em;
+        padding-inline: .5em;
         border-radius: 1em;
         position: relative;
     }
@@ -45,6 +44,7 @@
         width: 2em;
         height: 2em;
         border-radius: 50%;
+        margin-bottom: .5em;
     }
 
     .message p {
@@ -54,7 +54,7 @@
 
     .display-name {
         position: absolute;
-        top: -1.2em;
+        bottom: -1.3em;
         margin: 0;
         opacity: .5;
         font-size: smaller;

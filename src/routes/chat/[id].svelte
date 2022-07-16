@@ -12,6 +12,7 @@
     let chatroom: Chatroom | null | undefined = undefined;
     let message: string = "";
     let messagesDiv: HTMLElement;
+    let formInput: HTMLInputElement;
 
     const unsubscribe = onSnapshot(doc(db, "chatrooms", id), (snapshot) => {
         let data: Chatroom | null = snapshot.data() as Chatroom;
@@ -21,6 +22,8 @@
     
     const sendMessage = async () => {
         if (!message || !chatroom) return;
+
+        formInput.value = "";
         
         const msg = {
             text: message,
@@ -59,8 +62,8 @@
         {/each}
     </div>
     <form on:submit|preventDefault={sendMessage}>
-        <input type="text" bind:value={message} />
-        <button type="submit">Send</button>
+        <input bind:this={formInput} type="text" bind:value={message} />
+        <button type="submit">✉️</button>
     </form>
 {:else if chatroom === undefined}
     <h1>Loading...</h1>
@@ -81,7 +84,7 @@
         overflow-y: scroll;
         min-height: 0;
         border: 2px solid black;
-        border-radius: 1em;
+        border-radius: 1em 1em 0 0;
         padding-block: 1em;
         padding-inline: .2em;
     }
@@ -90,5 +93,24 @@
         background-color: lightblue;
         display: flex;
         padding: 1em;
+        border: 2px solid black;
+        border-top: none;
+        border-radius: 0 0 1em 1em;
+    }
+
+    form input {
+        flex: 1;
+        border: 2px solid black;
+        padding: .5em;
+        margin-right: .5em;
+        border-radius: 5px;
+    }
+
+    form button {
+        border: 2px solid black;
+        padding: .2em;
+        border-radius: 50%;
+        background-color: white;
+        font-size: 1.2em;
     }
 </style>
