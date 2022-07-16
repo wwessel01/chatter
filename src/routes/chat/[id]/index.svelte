@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Chatroom } from "$lib/models/chatroom";
     import { page } from "$app/stores";
+    import { goto } from '$app/navigation';
     import { db } from "$lib/services/firebase";
     import { doc, onSnapshot, updateDoc } from "firebase/firestore";
     import { onDestroy, onMount } from "svelte";
@@ -46,6 +47,10 @@
         if (!messagesDiv) return;
         messagesDiv.lastElementChild?.scrollIntoView({behavior: smooth ? "smooth" : "auto"});
     }
+
+    const gotoMembers = () => {
+        goto(window.location.href + "/members");
+    }
     
     $: if (messagesDiv) updateScroll(false);
 
@@ -56,6 +61,7 @@
 
 {#if chatroom}
     <h1>{chatroom.title}</h1>
+    <button class="member-button" on:click={gotoMembers}>👥</button>
     <div bind:this={messagesDiv} class="messages">
         {#each chatroom.messages as message}
             <ChatMessage {message} />
@@ -77,6 +83,16 @@
         flex: 0;
         margin-top: .5em;
         text-align: center;
+    }
+
+    .member-button {
+        position: absolute;
+        right: .2em;
+        top: .6em;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        font-size: 1.2em;
     }
 
     .messages {

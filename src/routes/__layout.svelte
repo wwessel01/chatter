@@ -58,6 +58,7 @@
         display: flex;
         flex-flow: column;
         min-height: 0;
+        position: relative;
     }
 
     a {
