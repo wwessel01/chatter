@@ -72,7 +72,6 @@
         padding: 1em;
         font-size: 1em;
         background-color: lightblue;
-        border: none;
         border: 2px solid black;
         border-radius: 5px;
     }
