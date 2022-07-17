@@ -58,6 +58,7 @@
         margin: 0;
         opacity: .5;
         font-size: smaller;
+        white-space: nowrap;
     }
 
     .display-name.self {
