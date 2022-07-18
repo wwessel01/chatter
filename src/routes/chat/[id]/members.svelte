@@ -38,7 +38,6 @@
 
 <section>
     {#if chatroom}
-        <h1>{chatroom.title}</h1>
         <div class="share-box">
             <div class="content">
                 <h2>Add a new member to {chatroom.title}?</h2>

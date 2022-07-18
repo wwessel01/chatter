@@ -20,4 +20,16 @@
     };
 </script>
 
-<button on:click={loginWithGoogle}>Login</button>
+<button on:click={loginWithGoogle}>👍 Login</button>
+
+<style>
+    button {
+        background-color: lightblue;
+        border: 2px solid black;
+        border-radius: 5px;
+        padding: 1em;
+        width: 80vw;
+        text-align: center;
+        font-size: 1em;
+    }
+</style>

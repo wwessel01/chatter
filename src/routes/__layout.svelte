@@ -20,7 +20,7 @@
             <a href="/">
                 <h1>💬 Chatter</h1>
             </a>
-            <div>
+            <div class="right">
                 <p>👤 {$currentUser.displayName}</p>
                 <LogoutButton />
             </div>
@@ -32,7 +32,9 @@
         <header>
             <h1>💬 Chatter</h1>
         </header>
-        <LoginButton />
+        <div class="login-box">
+            <LoginButton />
+        </div>
     {/if}
 </section>
 
@@ -51,6 +53,17 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        background-color: lightblue;
+        border: 2px solid black;
+        border-radius: 5px;
+        padding: .5em;
+        margin-bottom: .5em;
+    }
+
+    header .right {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
     }
 
     .content {
@@ -68,5 +81,10 @@
 
     h1, p {
         margin: 0;
+    }
+
+    .login-box {
+        display: flex;
+        justify-content: center;
     }
 </style>
